@@ -43,22 +43,27 @@ ACCENT = CONFIG["theme"]["accent"]
 # ("sec", title)               -> blue "— title —" rule
 # ("bul", text)                -> green dot + light text
 # ("gap",)                     -> vertical space
-ROWS = [
-    ("host",),
-    ("kv", "Role", f"{CONFIG['role']} @ {CONFIG['company']}"),
-    ("kv", "Location", CONFIG['location']),
-    ("kv", "Focus", ", ".join(CONFIG['focus'])),
-    ("gap",),
-    ("sec", "Stack"),
-    ("kv", "Languages", ", ".join(CONFIG['languages'])),
-    ("kv", "Technologies", ", ".join(CONFIG['technologies'])),
-    ("gap",),
-    ("sec", "Projects"),
-    ("bul", "linux-sysmonitor"),
-    ("bul", "devOps-Lab"),
-    ("bul", "AWS Learning"),
-    ("bul", "Portfolio"),
-]
+ROWS = [("host",), ("kv", "Role", f"{CONFIG['role']} @ {CONFIG['company']}"), ("kv", "Location", CONFIG['location'])]
+
+focus_values = CONFIG.get("focus") or []
+if focus_values:
+    ROWS.append(("kv", "Focus", ", ".join(focus_values)))
+
+ROWS.append(("gap",))
+ROWS.append(("sec", "Stack"))
+
+languages = CONFIG.get("languages") or []
+if languages:
+    ROWS.append(("kv", "Languages", ", ".join(languages)))
+
+technologies = CONFIG.get("technologies") or []
+if technologies:
+    ROWS.append(("kv", "Technologies", ", ".join(technologies)))
+
+projects = CONFIG.get("projects") or []
+if projects:
+    ROWS.extend([("gap",), ("sec", "Projects")])
+    ROWS.extend([("bul", project) for project in projects])
 
 
 def esc(s):
