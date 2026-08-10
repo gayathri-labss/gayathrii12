@@ -1,50 +1,41 @@
 {
-  "github_username": "puneeth-grinds",
-  "name": "Puneeth",
+  "github_username": "gayathrii12",
+  "name": "Gayathri V",
   "role": "Associate Software Engineer",
-  "company": "Cargill",
+  "company": "BNP Paribas",
   "location": "Bangalore, India",
   "focus": [
-    "AWS Cloud",
-    "Docker",
-    "Linux",
-    "Terraform",
-    "Kubernetes",
-    "Python Automation"
+    "Backend Development",
+    "Java",
+    "Spring Boot",
+    "APIs"
   ],
   "languages": [
     "Python",
     "Java",
-    "JavaScript",
-    "React"
+    "JavaScript"
   ],
   "technologies": [
     "AWS",
     "Docker",
     "GitHub Actions",
     "Linux",
-    "Terraform",
     "Kubernetes",
     "PostgreSQL"
   ],
-  "projects": [
-    "linux-sysmonitor",
-    "devOps-Lab",
-    "AWS Learning",
-    "Portfolio"
-  ],
+  "projects": [],
   "theme": {
     "accent": "#39d353",
     "font": "JetBrains Mono",
-    "prompt": "puneeth@github:~$"
+    "prompt": "gayathri@github:~$"
   },
   "social": {
-    "github": "https://github.com/puneeth-grinds",
-    "company": "https://www.cargill.com/"
+    "github": "https://github.com/gayathrii12",
+    "company": "https://group.bnpparibas/en/"
   },
   "assets": {
     "portrait": "profile_photo.png",
-    "ascii_output": "puneeth-ascii.svg",
+    "ascii_output": "gayathri-ascii.svg",
     "info_card_output": "info-card.svg",
     "heatmap_output": "contrib-heatmap.svg",
     "contributions_data": "data/contributions.json"
