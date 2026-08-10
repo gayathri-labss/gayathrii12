@@ -29,6 +29,7 @@
 <p><b>Associate Software Engineer · BNP Paribas</b></p>
 
 [![GitHub](https://img.shields.io/badge/GitHub-gayathrii12-0d1117?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gayathrii12)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-gayathriv1212-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/gayathriv1212)
 [![Role](https://img.shields.io/badge/Role-Associate_Software_Engineer-39d353?style=for-the-badge&logo=code&logoColor=black)](https://github.com/gayathrii12)
 [![Focus](https://img.shields.io/badge/Focus-Backend%20%7C%20Java%20%7C%20Spring%20Boot-22d3ee?style=for-the-badge&logo=java&logoColor=black)](https://github.com/gayathrii12)
 
