@@ -1,0 +1,52 @@
+{
+  "github_username": "puneeth-grinds",
+  "name": "Puneeth",
+  "role": "Associate Software Engineer",
+  "company": "Cargill",
+  "location": "Bangalore, India",
+  "focus": [
+    "AWS Cloud",
+    "Docker",
+    "Linux",
+    "Terraform",
+    "Kubernetes",
+    "Python Automation"
+  ],
+  "languages": [
+    "Python",
+    "Java",
+    "JavaScript",
+    "React"
+  ],
+  "technologies": [
+    "AWS",
+    "Docker",
+    "GitHub Actions",
+    "Linux",
+    "Terraform",
+    "Kubernetes",
+    "PostgreSQL"
+  ],
+  "projects": [
+    "linux-sysmonitor",
+    "devOps-Lab",
+    "AWS Learning",
+    "Portfolio"
+  ],
+  "theme": {
+    "accent": "#39d353",
+    "font": "JetBrains Mono",
+    "prompt": "puneeth@github:~$"
+  },
+  "social": {
+    "github": "https://github.com/puneeth-grinds",
+    "company": "https://www.cargill.com/"
+  },
+  "assets": {
+    "portrait": "profile_photo.png",
+    "ascii_output": "puneeth-ascii.svg",
+    "info_card_output": "info-card.svg",
+    "heatmap_output": "contrib-heatmap.svg",
+    "contributions_data": "data/contributions.json"
+  }
+}
