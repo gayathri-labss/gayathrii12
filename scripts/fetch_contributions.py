@@ -46,9 +46,13 @@ def fetch_days_graphql():
     start_date = end_date - datetime.timedelta(days=364)
     query = """
     query($login: String!, $from: DateTime!, $to: DateTime!) {
+      viewer {
+        login
+      }
       user(login: $login) {
         contributionsCollection(from: $from, to: $to) {
           contributionCalendar {
+            totalContributions
             weeks {
               contributionDays {
                 date
@@ -71,6 +75,10 @@ def fetch_days_graphql():
     }
     if not TOKEN:
         raise RuntimeError("GITHUB_TOKEN or GH_TOKEN is required for GitHub GraphQL fetch")
+    print(
+        f"using token from {'GH_PROFILE_TOKEN' if GH_PROFILE_TOKEN else 'GITHUB_TOKEN/GH_TOKEN'}",
+        file=sys.stderr,
+    )
     headers["Authorization"] = f"Bearer {TOKEN}"
     resp = requests.post(GITHUB_API_URL, json={"query": query, "variables": variables}, headers=headers, timeout=30)
     resp.raise_for_status()
@@ -78,10 +86,15 @@ def fetch_days_graphql():
     if payload.get("errors"):
         print(json.dumps(payload["errors"], indent=2), file=sys.stderr)
         raise RuntimeError("GitHub GraphQL returned errors")
-    user = payload.get("data", {}).get("user")
+    data = payload.get("data", {})
+    viewer = data.get("viewer", {}).get("login")
+    user = data.get("user")
+    print(f"viewer={viewer} target={USERNAME}", file=sys.stderr)
     if not user:
         raise RuntimeError("GitHub GraphQL response missing user data")
-    weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
+    weekly = user["contributionsCollection"]["contributionCalendar"]
+    print(f"totalContributions from GraphQL: {weekly.get('totalContributions')}", file=sys.stderr)
+    weeks = weekly["weeks"]
     days = []
     for week in weeks:
         for day in week["contributionDays"]:
