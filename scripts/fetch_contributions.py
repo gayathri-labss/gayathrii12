@@ -31,8 +31,9 @@ USERNAME = (
 )
 URL = f"https://github.com/users/{USERNAME}/contributions"
 GITHUB_API_URL = "https://api.github.com/graphql"
+GH_PROFILE_TOKEN = os.environ.get("GH_PROFILE_TOKEN")
 TOKEN = (
-    os.environ.get("GH_PROFILE_TOKEN")
+    GH_PROFILE_TOKEN
     or os.environ.get("GITHUB_TOKEN")
     or os.environ.get("GH_TOKEN")
 )
