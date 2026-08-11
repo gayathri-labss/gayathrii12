@@ -29,6 +29,7 @@ USERNAME = (
     or os.environ.get("GITHUB_REPOSITORY_OWNER")
     or CONFIG["github_username"]
 )
+URL = f"https://github.com/users/{USERNAME}/contributions"
 GITHUB_API_URL = "https://api.github.com/graphql"
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 OUT_PATH = os.path.join(ROOT, CONFIG["assets"]["contributions_data"])
