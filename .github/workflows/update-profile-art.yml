@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+
       - name: Fetch real contribution data (uses auth for private contributions)
         run: python scripts/fetch_contributions.py
 
