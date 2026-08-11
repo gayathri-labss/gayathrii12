@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Scrape real daily contribution counts from GitHub's public, unauthenticated
-contributions endpoint (the same fragment the profile page itself uses) and
-write data/contributions.json with the raw days plus derived stats
-(current streak, longest streak, best day, monthly totals).
+Scrape real daily contribution counts from GitHub and write data/contributions.json
+with the raw days plus derived stats (current streak, longest streak, best day,
+monthly totals).
 
-No token, no auth, no GraphQL -- just the public HTML GitHub already serves.
+If a GitHub token is available, use the GraphQL API to fetch the user's full
+contribution calendar. Otherwise fall back to public HTML scraping.
 Run daily by .github/workflows/update-profile-art.yml.
 """
 import datetime
@@ -31,7 +31,11 @@ USERNAME = (
 )
 URL = f"https://github.com/users/{USERNAME}/contributions"
 GITHUB_API_URL = "https://api.github.com/graphql"
-TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+TOKEN = (
+    os.environ.get("GH_PROFILE_TOKEN")
+    or os.environ.get("GITHUB_TOKEN")
+    or os.environ.get("GH_TOKEN")
+)
 OUT_PATH = os.path.join(ROOT, CONFIG["assets"]["contributions_data"])
 
 

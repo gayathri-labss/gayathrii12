@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_PROFILE_USER: ${{ github.repository_owner }}
+      GH_PROFILE_TOKEN: ${{ secrets.GH_PROFILE_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
