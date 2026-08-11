@@ -29,11 +29,62 @@ USERNAME = (
     or os.environ.get("GITHUB_REPOSITORY_OWNER")
     or CONFIG["github_username"]
 )
-URL = f"https://github.com/users/{USERNAME}/contributions"
+GITHUB_API_URL = "https://api.github.com/graphql"
+TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 OUT_PATH = os.path.join(ROOT, CONFIG["assets"]["contributions_data"])
 
 
-def fetch_days():
+def fetch_days_graphql():
+    now = datetime.datetime.now(datetime.timezone.utc)
+    end_date = now.date()
+    start_date = end_date - datetime.timedelta(days=364)
+    query = """
+    query($login: String!, $from: DateTime!, $to: DateTime!) {
+      user(login: $login) {
+        contributionsCollection(from: $from, to: $to) {
+          contributionCalendar {
+            weeks {
+              contributionDays {
+                date
+                contributionCount
+              }
+            }
+          }
+        }
+      }
+    }
+    """
+    variables = {
+        "login": USERNAME,
+        "from": f"{start_date.isoformat()}T00:00:00Z",
+        "to": f"{end_date.isoformat()}T23:59:59Z",
+    }
+    headers = {
+        "User-Agent": "profile-readme-bot/1.0",
+        "Accept": "application/json",
+    }
+    if not TOKEN:
+        raise RuntimeError("GITHUB_TOKEN or GH_TOKEN is required for GitHub GraphQL fetch")
+    headers["Authorization"] = f"Bearer {TOKEN}"
+    resp = requests.post(GITHUB_API_URL, json={"query": query, "variables": variables}, headers=headers, timeout=30)
+    resp.raise_for_status()
+    payload = resp.json()
+    if payload.get("errors"):
+        print(json.dumps(payload["errors"], indent=2), file=sys.stderr)
+        raise RuntimeError("GitHub GraphQL returned errors")
+    user = payload.get("data", {}).get("user")
+    if not user:
+        raise RuntimeError("GitHub GraphQL response missing user data")
+    weeks = user["contributionsCollection"]["contributionCalendar"]["weeks"]
+    days = []
+    for week in weeks:
+        for day in week["contributionDays"]:
+            days.append({"date": day["date"], "count": day["contributionCount"]})
+    days.sort(key=lambda d: d["date"])
+    return days
+
+
+def fetch_days_scrape():
     resp = requests.get(URL, headers={"User-Agent": "profile-readme-bot/1.0"}, timeout=30)
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")
@@ -60,6 +111,17 @@ def fetch_days():
 
     days.sort(key=lambda d: d["date"])
     return days
+
+
+def fetch_days():
+    if TOKEN:
+        print("fetching contribution data via GitHub GraphQL API", file=sys.stderr)
+        try:
+            return fetch_days_graphql()
+        except Exception as exc:
+            print(f"GitHub GraphQL fetch failed: {exc}", file=sys.stderr)
+            print("falling back to public HTML scraping", file=sys.stderr)
+    return fetch_days_scrape()
 
 
 def compute_current_streak(days):
