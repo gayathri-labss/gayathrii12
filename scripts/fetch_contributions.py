@@ -37,6 +37,11 @@ TOKEN = (
     or os.environ.get("GITHUB_TOKEN")
     or os.environ.get("GH_TOKEN")
 )
+TOKEN_SOURCE = (
+    "GH_PROFILE_TOKEN"
+    if GH_PROFILE_TOKEN
+    else ("GITHUB_TOKEN/GH_TOKEN" if TOKEN else None)
+)
 OUT_PATH = os.path.join(ROOT, CONFIG["assets"]["contributions_data"])
 
 
@@ -76,7 +81,7 @@ def fetch_days_graphql():
     if not TOKEN:
         raise RuntimeError("GITHUB_TOKEN or GH_TOKEN is required for GitHub GraphQL fetch")
     print(
-        f"using token from {'GH_PROFILE_TOKEN' if GH_PROFILE_TOKEN else 'GITHUB_TOKEN/GH_TOKEN'}",
+        f"using token from {TOKEN_SOURCE}",
         file=sys.stderr,
     )
     headers["Authorization"] = f"Bearer {TOKEN}"
